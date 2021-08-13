@@ -2,8 +2,20 @@
 import { ContainerConteudo } from './conteudo.styled'
 import { ChatButton, ChatInput, ChatTextArea } from '../../components/outros/inputs'
 
+import { useState } from 'react';
+
+import Api from '../../service/api';
+const api = new Api();
+
 
 export default function Conteudo() {
+    const [chat, setChat] = useState([]);
+
+    const atualizar = async () => {
+        const mensagens = await api.listarMensagens(1);
+        setChat(mensagens)
+    }
+    
     return (
         <ContainerConteudo>
             <div className="container-form">
@@ -29,17 +41,22 @@ export default function Conteudo() {
             </div>
             
             <div className="container-chat">
-                <img className="chat-atualizar" src="/assets/images/atualizar.png" alt="" />
+                
+                <img onClick={atualizar}
+                   className="chat-atualizar"
+                         src="/assets/images/atualizar.png" alt="" />
+                
                 <div className="chat">
-                    <div className="chat-message">
-                        <div>(15:02:01)</div>
-                        <div><b>Bruno</b> entrou na sala: ...</div>
-                    </div>
-                    <div className="chat-message">
-                        <div>(15:02:01)</div>
-                        <div><b>Bruno</b> fala para <b>Todos</b>:</div>
-                        <div> E ae pessoal, blzz?! </div>
-                    </div>
+                    {chat.map(x =>
+                        <div>
+                            <div className="chat-message">
+                                <div>({new Date(x.dt_mensagem.replace('Z', '')).toLocaleTimeString()})</div>
+                                <div><b>{x.tb_usuario.nm_usuario}</b> fala para <b>Todos</b>:</div>
+                                <div> {x.ds_mensagem} </div>
+                            </div>
+                        </div>
+                    )}
+                    
                 </div>
             </div>
         </ContainerConteudo>
