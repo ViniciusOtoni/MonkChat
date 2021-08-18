@@ -13,6 +13,7 @@ export default function Conteudo() {
 
     const atualizar = async () => {
         const mensagens = await api.listarMensagens(1);
+        console.log(mensagens);
         setChat(mensagens)
     }
     
