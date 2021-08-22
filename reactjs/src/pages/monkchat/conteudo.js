@@ -10,11 +10,23 @@ const api = new Api();
 
 export default function Conteudo() {
     const [chat, setChat] = useState([]);
+    const [sala, setSala] = useState('');
+    const [usu, setUsu] = useState('');
+    const [msg, setMsg] = useState('')
+
 
     const atualizar = async () => {
         const mensagens = await api.listarMensagens(1);
         console.log(mensagens);
         setChat(mensagens)
+    }
+
+    const enviarMensagem = async () => {
+        const r = await api.inserirMensagem(sala, usu, msg);
+        console.log(r);
+        alert('Mensagem enviada com sucesso!');
+
+        await atualizar();
     }
     
     return (
@@ -23,11 +35,11 @@ export default function Conteudo() {
                 <div className="box-sala">
                     <div>
                         <div className="label">Sala</div>
-                        <ChatInput />
+                        <ChatInput value={sala} onChange={e => setSala(e.target.value)} />
                     </div>
                     <div>
                         <div className="label">Nick</div>
-                        <ChatInput />
+                        <ChatInput value={usu} onChange={e => setUsu(e.target.value)} />
                     </div>
                     <div>
                         <ChatButton> Criar </ChatButton>
@@ -36,8 +48,8 @@ export default function Conteudo() {
                 </div>
                 <div className="box-mensagem">
                     <div className="label">Mensagem</div>
-                    <ChatTextArea />
-                    <ChatButton className="btn-enviar"> Enviar </ChatButton>
+                    <ChatTextArea value={msg} onChange={e => setMsg(e.target.value)} />
+                    <ChatButton onClick={enviarMensagem} className="btn-enviar"> Enviar </ChatButton>
                 </div>
             </div>
             
