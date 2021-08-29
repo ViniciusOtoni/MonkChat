@@ -22,4 +22,14 @@ export default class Api {
         let r = await api.post(`/chat`, chat);
         return r.data;
     }
+
+    async inserirSala(sala) {
+        let r = await api.post(`/sala/`, { nome: sala });
+        return r.data;
+    }
+
+    async inserirUsuario(usuario) {
+        let r = await api.post(`/usuario/`, { nome: usuario });
+        return r.data;
+    }
 }
