@@ -26,8 +26,16 @@ const ContainerCabecalho = styled.div`
     }
     .sair {
         font: 700 2.2em Montserrat;
-        padding-left: 38em;
+        padding-left: 37em;
 
+    }
+    .porta {
+        padding-left: .7em;
+        padding-top: .4em;
+       
+    }
+    .porta img {
+        cursor: pointer;
     }
 
 

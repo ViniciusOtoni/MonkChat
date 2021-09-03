@@ -89,11 +89,13 @@ export default function Conteudo() {
         
     }
     
-    const removerMsg = async (id) => {
-       if(id.nm_usuario != usu)
-        toast.error('Você Não pode remover a mensagem da outra pessoa')
+    const removerMsg = async (item) => {
+       console.log(item)
+
+        if(item.tb_usuario.nm_usuario !== usu)
+        toast.error('Você não pode remover a mensagem da outra pessoa')
         else {
-        const r = await api.removerMensagem(id)
+        const r = await api.removerMensagem(item.id_chat)
         if (!validarResposta(r)) 
             return;
         
@@ -104,8 +106,12 @@ export default function Conteudo() {
     }
 }
     const editar = async (item) => {
+        if(item.tb_usuario.nm_usuario !== usu)
+        toast.error('Você não pode alterar a mensagem da outra pessoa')
+        else {
         setMsg(item.ds_mensagem);
         setIdAlterado(item.id_chat);
+        }
     }
 
     const inserirUsuario = async () => {
@@ -157,13 +163,13 @@ export default function Conteudo() {
                 <img onClick={carregarMensagens}
                    className="chat-atualizar"
                          src="/assets/images/atualizar.png" alt="" />
-                
+               
                 <div className="chat">
                     {chat.map(x =>
                         <div key={x.id_chat}>
                             <div className="chat-message">
                                  <div className= "edit"> <img onClick={ () => editar(x) } src = "/assets/images/edit_icon-icons.com_61193.svg" alt = "" /> </div>
-                                 <div className="lixo"> <img  onClick={ () => removerMsg(x.id_chat) } src = "/assets/images/lixo.svg" alt ="" /> </div>
+                                 <div className="lixo"> <img  onClick={ () => removerMsg(x) } src = "/assets/images/lixo.svg" alt ="" /> </div>
                                 <div>({new Date(x.dt_mensagem.replace('Z', '')).toLocaleTimeString()})</div>
                                 <div><b>{x.tb_usuario.nm_usuario}</b> fala para <b>Todos</b>:</div>
                                 <div> {x.ds_mensagem} </div>

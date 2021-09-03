@@ -19,7 +19,10 @@ export default function Cabecalho() {
             <img src="/assets/images/logo-monkchat.png" alt="" />
             <Barra />
             <div className="titulo"> MonkChat </div>
-            <div className="sair" onClick={logof}>  Sair </div>
+            
+            <div className="sair" onClick={logof}>  Sair </div> 
+            <div className="porta" onClick={logof}> <img src = "/assets/images/exit_icon-icons.com_70975.svg" alt = "" /> </div>
+      
         </ContainerCabecalho>
     )
 }
