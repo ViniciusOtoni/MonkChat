@@ -168,8 +168,10 @@ export default function Conteudo() {
                     {chat.map(x =>
                         <div key={x.id_chat}>
                             <div className="chat-message">
+                            <div className="banir"> <img src = "/assets/images/warning-weather-interface-outlined-symbol_icon-icons.com_54630.svg" alt = "" /> </div>
                                  <div className= "edit"> <img onClick={ () => editar(x) } src = "/assets/images/edit_icon-icons.com_61193.svg" alt = "" /> </div>
                                  <div className="lixo"> <img  onClick={ () => removerMsg(x) } src = "/assets/images/lixo.svg" alt ="" /> </div>
+                                
                                 <div>({new Date(x.dt_mensagem.replace('Z', '')).toLocaleTimeString()})</div>
                                 <div><b>{x.tb_usuario.nm_usuario}</b> fala para <b>Todos</b>:</div>
                                 <div> {x.ds_mensagem} </div>
