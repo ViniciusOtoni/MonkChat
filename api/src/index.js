@@ -169,6 +169,23 @@ app.put("/usuario", async (req,resp) => {
      }
  });
 
+app.put (`/chat/:id`, async (req, resp ) => {
+try {
+    let id = req.params.id;
+    let mensagem = req.body.mensagem;
+
+    let  r = await db.tb_chat.update({
+        ds_mensagem: mensagem,
+    },
+    {
+        where: { id_chat: id}
+    });
+    resp.sendStatus(200)
+} catch (error) {
+    resp.send( { erro: error.toString() })
+}
+});
+
 
 
 

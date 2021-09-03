@@ -34,6 +34,8 @@ function lerUsuarioQuelogou(navegation) {
 export default function Conteudo() {
     const navegation = useHistory();
     let usuarioLogado = lerUsuarioQuelogou(navegation) || {};
+
+    const[idAlterado, setIdAlterado ] = useState(0);
     const [chat, setChat] = useState([]);
     const [sala, setSala] = useState('');
     const [usu, setUsu] = useState(usuarioLogado.nm_usuario);
@@ -66,12 +68,25 @@ export default function Conteudo() {
     }
 
     const enviarMensagem = async () => {
-        const resp = await api.inserirMensagem(sala, usu, msg);
+
+        if(idAlterado > 0) {
+        const resp = await api.alterarMensagem(idAlterado, msg);
+        if (!validarResposta(resp)) 
+            return;
+        toast.dark('💕 Mensagem Alterada com sucesso!');
+        await carregarMensagens();
+        setIdAlterado(0);
+        setMsg("")
+        } else {
+            const resp = await api.inserirMensagem(sala, usu, msg);
         if (!validarResposta(resp)) 
             return;
         
         toast.dark('💕 Mensagem enviada com sucesso!');
         await carregarMensagens();
+        
+        }
+        
     }
     
     const removerMsg = async (id) => {
@@ -85,6 +100,11 @@ export default function Conteudo() {
 
         
         await carregarMensagens();
+    }
+
+    const editar = async (item) => {
+        setMsg(item.ds_mensagem);
+        setIdAlterado(item.id_chat);
     }
 
     const inserirUsuario = async () => {
@@ -140,7 +160,9 @@ export default function Conteudo() {
                 <div className="chat">
                     {chat.map(x =>
                         <div key={x.id_chat}>
-                            <div className="chat-message"> <div className="lixo"> <img  onClick={ () => removerMsg(x.id_chat) } src = "/assets/images/lixo.svg" alt ="" /> </div>
+                            <div className="chat-message">
+                                 <div className= "edit"> <img onClick={ () => editar(x) } src = "/assets/images/edit_icon-icons.com_61193.svg" alt = "" /> </div>
+                                 <div className="lixo"> <img  onClick={ () => removerMsg(x.id_chat) } src = "/assets/images/lixo.svg" alt ="" /> </div>
                                 <div>({new Date(x.dt_mensagem.replace('Z', '')).toLocaleTimeString()})</div>
                                 <div><b>{x.tb_usuario.nm_usuario}</b> fala para <b>Todos</b>:</div>
                                 <div> {x.ds_mensagem} </div>
