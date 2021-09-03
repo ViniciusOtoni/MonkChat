@@ -90,8 +90,7 @@ export default function Conteudo() {
     }
     
     const removerMsg = async (id) => {
-       if(usu != usu)
-        return null;
+      
         const r = await api.removerMensagem(id)
         if (!validarResposta(r)) 
             return;
