@@ -8,21 +8,46 @@ import { ChatButton, ChatInput, ChatTextArea } from '../../components/outros/inp
 
 import { useState, useRef } from 'react';
 
+
+import Cookies from 'js-cookie';
+import { useHistory } from 'react-router-dom'
+
 import Api from '../../service/api';
 const api = new Api();
 
+function lerUsuarioQuelogou(navegation) {
+    let logado = Cookies.get('usuario-logado');
+    if(logado == null) {
+    navegation.push('/')
+    return null;
+    }
+
+    let usuarioLogado = JSON.parse(logado);
+    return usuarioLogado;
+
+    
+
+}
+
+
 
 export default function Conteudo() {
+    const navegation = useHistory();
+    let usuarioLogado = lerUsuarioQuelogou(navegation) || {};
     const [chat, setChat] = useState([]);
     const [sala, setSala] = useState('');
-    const [usu, setUsu] = useState('');
-    const [msg, setMsg] = useState('')
+    const [usu, setUsu] = useState(usuarioLogado.nm_usuario);
+    const [msg, setMsg] = useState('');
+
 
     const loading = useRef(null);
 
+    
+
+  
 
     const validarResposta = (resp) => {
-        //console.log(resp);
+       
 
         if (!resp.erro)
             return true;
@@ -48,6 +73,19 @@ export default function Conteudo() {
         toast.dark('💕 Mensagem enviada com sucesso!');
         await carregarMensagens();
     }
+    
+    const removerMsg = async (id) => {
+       if(usu != usu)
+        return null;
+        const r = await api.removerMensagem(id)
+        if (!validarResposta(r)) 
+            return;
+        
+        toast.dark('💕 Mensagem Removida com sucesso!');
+
+        
+        await carregarMensagens();
+    }
 
     const inserirUsuario = async () => {
         const resp = await api.inserirUsuario(usu);
@@ -70,7 +108,7 @@ export default function Conteudo() {
     return (
         <ContainerConteudo>
             <ToastContainer />
-            <LoadingBar color="red" ref={loading} />
+            <LoadingBar color="#fffff" ref={loading} />
             <div className="container-form">
                 <div className="box-sala">
                     <div>
@@ -79,7 +117,7 @@ export default function Conteudo() {
                     </div>
                     <div>
                         <div className="label">Nick</div>
-                        <ChatInput value={usu} onChange={e => setUsu(e.target.value)} />
+                        <ChatInput value={usu} readOnly={true} />
                     </div>
                     <div>
                         <ChatButton onClick={inserirSala}> Criar </ChatButton>
@@ -102,7 +140,7 @@ export default function Conteudo() {
                 <div className="chat">
                     {chat.map(x =>
                         <div key={x.id_chat}>
-                            <div className="chat-message">
+                            <div className="chat-message"> <div className="lixo"> <img  onClick={ () => removerMsg(x.id_chat) } src = "/assets/images/lixo.svg" alt ="" /> </div>
                                 <div>({new Date(x.dt_mensagem.replace('Z', '')).toLocaleTimeString()})</div>
                                 <div><b>{x.tb_usuario.nm_usuario}</b> fala para <b>Todos</b>:</div>
                                 <div> {x.ds_mensagem} </div>

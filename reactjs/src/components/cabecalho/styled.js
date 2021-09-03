@@ -24,6 +24,11 @@ const ContainerCabecalho = styled.div`
     .titulo {
         font: 700 2.2em Montserrat;
     }
+    .sair {
+        font: 700 2.2em Montserrat;
+        padding-left: 38em;
+
+    }
 
 
     @media (max-width: 400px) {

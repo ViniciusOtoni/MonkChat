@@ -109,7 +109,7 @@ const ContainerConteudo = styled.div`
     .chat-message {
         display: flex;
         flex-direction: row;
-
+        align-items: center;
         font-size: .9em;
         margin: .4em .2em;
     }
@@ -117,8 +117,12 @@ const ContainerConteudo = styled.div`
     .chat-message > div {
         margin: 0em .2em;
     }
+    
+    .lixo img {
+        cursor: pointer;
+    }
 
-
+   
     @media (max-width: 400px) {
         flex-direction: column;
         padding: .2em;
