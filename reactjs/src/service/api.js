@@ -46,4 +46,9 @@ export default class Api {
         let r = await api.put(`/chat/${id}`, { mensagem: msg })
         return r.data;
     }
+
+    async banir(id) {
+        let r = await api.delete(`/usuario/${id}` )
+        return r.data;
+    }
 }

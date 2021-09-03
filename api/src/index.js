@@ -156,6 +156,16 @@ app.delete('/chat/:id', async (req,resp) =>{
     }
 }) 
 
+app.delete('/usuario:id', async (req,resp) => {
+    try { 
+     let q = await db.tb_usuario.destroy({ where: { id_usuario: req.params.id }})
+     resp.sendStatus(200); 
+    } catch(e) {
+         resp.send("Erro")
+         console.log(e.toString());
+     }
+ });
+
 app.put("/usuario", async (req,resp) => {
     try { 
      let id = req.query.id;
@@ -185,6 +195,7 @@ try {
     resp.send( { erro: error.toString() })
 }
 });
+
 
 
 

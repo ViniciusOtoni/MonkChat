@@ -90,7 +90,7 @@ export default function Conteudo() {
     }
     
     const removerMsg = async (item) => {
-       console.log(item)
+       
 
         if(item.tb_usuario.nm_usuario !== usu)
         toast.error('Você não pode remover a mensagem da outra pessoa')
@@ -113,6 +113,15 @@ export default function Conteudo() {
         setIdAlterado(item.id_chat);
         }
     }
+
+    const banirr = async (item) => {
+        const r = api.banir(item.id_usuario)
+        toast.success('Usuario Banido com Sucesso')
+
+        await carregarMensagens();
+    }
+
+    
 
     const inserirUsuario = async () => {
         const resp = await api.inserirUsuario(usu);
@@ -168,7 +177,8 @@ export default function Conteudo() {
                     {chat.map(x =>
                         <div key={x.id_chat}>
                             <div className="chat-message">
-                            <div className="banir"> <img src = "/assets/images/warning-weather-interface-outlined-symbol_icon-icons.com_54630.svg" alt = "" /> </div>
+
+                                <div className="banir"> <img  onClick={ () => banirr(x) } src = "/assets/images/warning-weather-interface-outlined-symbol_icon-icons.com_54630.svg" /> </div>
                                  <div className= "edit"> <img onClick={ () => editar(x) } src = "/assets/images/edit_icon-icons.com_61193.svg" alt = "" /> </div>
                                  <div className="lixo"> <img  onClick={ () => removerMsg(x) } src = "/assets/images/lixo.svg" alt ="" /> </div>
                                 
