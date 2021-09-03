@@ -90,8 +90,9 @@ export default function Conteudo() {
     }
     
     const removerMsg = async (id) => {
-       if(usu != usu)
-        return null;
+       if(id.nm_usuario != usu)
+        toast.error('Você Não pode remover a mensagem da outra pessoa')
+        else {
         const r = await api.removerMensagem(id)
         if (!validarResposta(r)) 
             return;
@@ -101,7 +102,7 @@ export default function Conteudo() {
         
         await carregarMensagens();
     }
-
+}
     const editar = async (item) => {
         setMsg(item.ds_mensagem);
         setIdAlterado(item.id_chat);
