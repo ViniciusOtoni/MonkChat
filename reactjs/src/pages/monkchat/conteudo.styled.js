@@ -121,6 +121,12 @@ const ContainerConteudo = styled.div`
     .lixo img {
         cursor: pointer;
     }
+    .banir img {
+        cursor: pointer;
+    }
+    .edit img {
+        cursor: pointer;
+    }
 
    
     @media (max-width: 400px) {
